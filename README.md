@@ -1,6 +1,7 @@
 # sfuinteractivemap
 
-A new Flutter application.
+Interactive map of the SFU Burnaby Campus that identifies all notable buildings on the campus.
+Designed for students and faculty of the university.
 
 ## Getting Started
 
