@@ -20,7 +20,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   GoogleMapController mapController;
   CustomMenuPopup _selectedChoices = MenuChoices().choices[0];
-  MyBuildings sfuBuildings;
+  MyBuildings sfuBuildings = new MyBuildings();
 
   final LatLng _center = const LatLng(
       49.279075, -122.919000); //centers around convocation mall approx.
@@ -38,7 +38,6 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    print(sfuBuildings.test());
     return Scaffold(
       backgroundColor: Colors.red.shade100,
       appBar: AppBar(

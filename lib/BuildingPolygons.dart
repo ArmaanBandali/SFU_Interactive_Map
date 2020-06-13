@@ -1,35 +1,28 @@
 import 'dart:core';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'BuildingCoordinates.dart';
 
 
 class MyBuildings{
-  Set <Polygon> _buildings = new Set();
-  String buildingName = 'A';
+  Set <Polygon> _buildings = new Set(); //Holds polygons to be drawn
+  List <Buildings> _allBuildings = new AllBuildings().allBuildings; //Holds all of the building coordinates and names
 
-  List<LatLng> coords =[
-    LatLng(49.279075, -122.919000),
-    LatLng(49.279080, -122.919000),
-    LatLng(49.279080, -122.918090),
-    LatLng(49.279075, -122.918090)
-  ];
-
-
-  void addPolygon(){
-    _buildings.add(Polygon(
-      polygonId: PolygonId(buildingName),
-      points: coords,
+  MyBuildings(){ //Creates a polygon for each building
+    int i=0;
+    while (i < _allBuildings.length){
+      _buildings.add(Polygon(
+      polygonId: PolygonId(_allBuildings[i].buildingName),
+      points: _allBuildings[i].buildingCoords,
       strokeColor: Colors.blue,
       strokeWidth: 1,
       fillColor: Colors.blue.withOpacity(0.4),
-    ),);
+      ),);
+      i++;
+    }
   }
 
-  String test(){
-    return buildingName;
-  }
-
-  Set <Polygon> buildingSet(){
+  Set <Polygon> buildingSet(){ //Return set of Polygons
     return _buildings;
   }
 
