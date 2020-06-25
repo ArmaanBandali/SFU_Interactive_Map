@@ -21,7 +21,7 @@ class AllBuildings {
         //Example for adding polygon coordinates and id through constructor
         LatLng(49.279700, -122.922640),
         LatLng(49.280010, -122.922525),
-        LatLng(49.279775, -122.920975),
+        LatLng(49.279780, -122.920965),
         LatLng(49.279465, -122.921075),
       ]),
     ); //add
@@ -31,13 +31,21 @@ class AllBuildings {
         LatLng(49.279055, -122.919550),
         LatLng(49.279125, -122.919975),
         LatLng(49.278900, -122.920045),
-        LatLng(49.278825, -122.919670),
+        LatLng(49.278830, -122.919670),
         LatLng(49.278500, -122.919355),
         LatLng(49.278250, -122.919450),
         LatLng(49.278200, -122.919100),
         LatLng(49.278475, -122.918990),
         LatLng(49.278420, -122.918625),
         LatLng(49.279020, -122.918435),
+      ]),
+    ); //add
+    allBuildings.add(
+      Buildings('Library', <LatLng>[
+        LatLng(49.279915, -122.919420),
+        LatLng(49.279600, -122.919550),
+        LatLng(49.279360, -122.918000),
+        LatLng(49.279700, -122.917880),
       ]),
     ); //add
   } //addBuilding
