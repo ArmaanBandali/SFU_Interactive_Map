@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'CustomMenuPopup.dart';
 import 'MenuChoices.dart';
@@ -20,8 +19,7 @@ class _MapState extends State<Map> {
   GoogleMapController mapController;
   CustomMenuPopup _selectedChoices = MenuChoices().choices[0];
 
-  final LatLng _center = const LatLng(
-      49.279075, -122.919000); //centers around convocation mall approx.
+  final LatLng _center = const LatLng(49.279075, -122.919000); //centers around convocation mall approx.
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -87,8 +85,7 @@ class _MapState extends State<Map> {
                     child: TextField(
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction
-                          .go, //figure out what to do with this...
+                      textInputAction: TextInputAction.go, //figure out what to do with this...
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
