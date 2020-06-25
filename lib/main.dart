@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'CustomMenuPopup.dart';
 import 'MenuChoices.dart';
+import 'BuildingPolygons.dart';
 
 void main() => runApp(
       MaterialApp(
@@ -18,6 +19,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   GoogleMapController mapController;
   CustomMenuPopup _selectedChoices = MenuChoices().choices[0];
+  MyBuildings sfuBuildings = new MyBuildings();
 
   final LatLng _center = const LatLng(49.279075, -122.919000); //centers around convocation mall approx.
 
@@ -30,6 +32,7 @@ class _MapState extends State<Map> {
       _selectedChoices = choice;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class _MapState extends State<Map> {
               target: _center,
               zoom: 18.0,
             ),
+            polygons: sfuBuildings.buildingSet(),
           ),
           Positioned(
             top: 10,
