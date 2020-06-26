@@ -48,6 +48,24 @@ class AllBuildings {
         LatLng(49.279700, -122.917880),
       ]),
     ); //add
+    allBuildings.add(
+      Buildings.withAbbreviation('Robert C. Brown', 'RCB', <LatLng>[
+        LatLng(49.280650, -122.917050),
+        LatLng(49.279740, -122.917390),
+        LatLng(49.279630, -122.916625),
+        LatLng(49.279865, -122.916545),
+        LatLng(49.279830, -122.916340),
+        LatLng(49.279910, -122.916315),
+        LatLng(49.279940, -122.916475),
+        LatLng(49.280075, -122.916430),
+        LatLng(49.280060, -122.916340),
+        LatLng(49.280575, -122.916160),
+        LatLng(49.280650, -122.916650),
+        LatLng(49.280630, -122.916655),
+        LatLng(49.280655, -122.916820),
+        LatLng(49.280615, -122.916835),
+      ]),
+    ); //add
   } //addBuilding
 
 }
