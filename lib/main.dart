@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:sfuinteractivemap/BuildingCoordinates.dart';
 import 'CustomMenuPopup.dart';
 import 'MenuChoices.dart';
 import 'BuildingPolygons.dart';
@@ -24,12 +26,24 @@ class _MapState extends State<Map> {
   MyBuildings sfuBuildings = new MyBuildings();
   String _mapStyle;
 
+  //custom markers on map
+  BitmapDescriptor pinLocationIcon;
+  Set<Marker> _markers = {};
+
   void initState() {
     super.initState();
-
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
+
+    setCustomMapPin();
+  }
+
+  void setCustomMapPin() async {
+    pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: 3.2),
+      'assets/icons8-marker-100.png',
+    );
   }
 
   final LatLng _center = const LatLng(
@@ -38,6 +52,66 @@ class _MapState extends State<Map> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     controller.setMapStyle(_mapStyle);
+
+    setState(
+      () {
+        _markers.add(
+          Marker(
+            markerId: MarkerId(sfuBuildings.getBuilding(0).buildingName),
+            position: sfuBuildings.getBuilding(0).centre,
+            icon: pinLocationIcon,
+            infoWindow: InfoWindow(
+              title: sfuBuildings.getBuilding(0).buildingName +
+                  ' (' +
+                  sfuBuildings.getBuilding(0).abbreviation +
+                  ')',
+              snippet:
+                  "Contains: Beedie School of Business, Department of Economics, MATHWEST",
+            ),
+          ),
+        ); // Add Marker
+        _markers.add(
+          Marker(
+            markerId: MarkerId(sfuBuildings.getBuilding(1).buildingName),
+            position: sfuBuildings.getBuilding(1).centre,
+            icon: pinLocationIcon,
+            infoWindow: InfoWindow(
+              title: sfuBuildings.getBuilding(1).buildingName +
+                  " (" +
+                  sfuBuildings.getBuilding(1).abbreviation +
+                  ")",
+              snippet:
+                  "Contains: Registrar and Information Services, SFU Bookstore and Spirit Shop",
+            ),
+          ),
+        ); // Add Marker
+        _markers.add(
+          Marker(
+            markerId: MarkerId(sfuBuildings.getBuilding(2).buildingName),
+            position: sfuBuildings.getBuilding(2).centre,
+            icon: pinLocationIcon,
+            infoWindow: InfoWindow(
+              title: sfuBuildings.getBuilding(2).buildingName,
+              snippet: "You can borrow laptops here!",
+            ),
+          ),
+        ); // Add Marker
+        _markers.add(
+          Marker(
+            markerId: MarkerId(sfuBuildings.getBuilding(3).buildingName),
+            position: sfuBuildings.getBuilding(3).centre,
+            icon: pinLocationIcon,
+            infoWindow: InfoWindow(
+              title: sfuBuildings.getBuilding(3).buildingName +
+                  " (" +
+                  sfuBuildings.getBuilding(3).abbreviation +
+                  ")",
+              snippet: "Contains: Images Theatre",
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _selectMenuOption(CustomMenuPopup choice) {
@@ -58,7 +132,13 @@ class _MapState extends State<Map> {
       body: Stack(
         children: <Widget>[
           GoogleMap(
+            //buildingsEnabled: false,
+            compassEnabled: true,
+            markers: _markers,
             onMapCreated: _onMapCreated,
+            rotateGesturesEnabled: true,
+            minMaxZoomPreference: MinMaxZoomPreference(
+                16.0, 19.0), //sets bounds for zoom of the map
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 18.0,
@@ -94,11 +174,6 @@ class _MapState extends State<Map> {
                       }).toList();
                     },
                   ),
-                  //IconButton(
-                  //  icon: Icon(Icons.menu),
-                  //  onPressed: () {
-                  //  },
-                  //),
                   Expanded(
                     child: TextField(
                       cursorColor: Colors.black,

@@ -26,4 +26,7 @@ class MyBuildings{
     return _buildings;
   }
 
+  Buildings getBuilding(index) {
+    return _allBuildings[index];
+  }
 }
