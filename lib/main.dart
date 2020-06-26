@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'CustomMenuPopup.dart';
 import 'MenuChoices.dart';
 import 'BuildingPolygons.dart';
@@ -20,11 +22,22 @@ class _MapState extends State<Map> {
   GoogleMapController mapController;
   CustomMenuPopup _selectedChoices = MenuChoices().choices[0];
   MyBuildings sfuBuildings = new MyBuildings();
+  String _mapStyle;
 
-  final LatLng _center = const LatLng(49.279075, -122.919000); //centers around convocation mall approx.
+  void initState() {
+    super.initState();
+
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
+  }
+
+  final LatLng _center = const LatLng(
+      49.279075, -122.919000); //centers around convocation mall approx.
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    controller.setMapStyle(_mapStyle);
   }
 
   void _selectMenuOption(CustomMenuPopup choice) {
@@ -32,7 +45,6 @@ class _MapState extends State<Map> {
       _selectedChoices = choice;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +84,9 @@ class _MapState extends State<Map> {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     onSelected: _selectMenuOption,
                     itemBuilder: (BuildContext context) {
-                      return MenuChoices().choices.map((CustomMenuPopup choice) {
+                      return MenuChoices()
+                          .choices
+                          .map((CustomMenuPopup choice) {
                         return PopupMenuItem(
                           value: choice,
                           child: Text(choice.title),
@@ -89,7 +103,8 @@ class _MapState extends State<Map> {
                     child: TextField(
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.go, //figure out what to do with this...
+                      textInputAction: TextInputAction
+                          .go, //figure out what to do with this...
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
