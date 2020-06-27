@@ -19,16 +19,17 @@ class AllBuildings {
   AllBuildings() {
     allBuildings.add(
       Buildings.withAbbreviation(
-          'West Mall Centre',
-          'WMC',
-          <LatLng>[
-            //Example for adding polygon coordinates and id through constructor
-            LatLng(49.279700, -122.922640),
-            LatLng(49.280010, -122.922525),
-            LatLng(49.279780, -122.920965),
-            LatLng(49.279465, -122.921075),
-          ],
-          LatLng(49.279700, -122.921790)),
+        'West Mall Centre',
+        'WMC',
+        <LatLng>[
+          //Example for adding polygon coordinates and id through constructor
+          LatLng(49.279700, -122.922640),
+          LatLng(49.280010, -122.922525),
+          LatLng(49.279780, -122.920965),
+          LatLng(49.279465, -122.921075),
+        ],
+        LatLng(49.279700, -122.921790),
+      ),
     ); //add
     allBuildings.add(
       Buildings.withAbbreviation(

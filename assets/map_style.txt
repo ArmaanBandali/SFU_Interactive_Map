@@ -1,39 +1,35 @@
 [
   {
+    "featureType": "administrative",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
     "featureType": "poi",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
     "elementType": "labels.icon",
     "stylers": [
       {
-        "color": "#32619f"
-      },
-      {
-        "weight": 5.5
-      }
-    ]
-  },
-  {
-    "featureType": "poi.business",
-    "stylers": [
-      {
         "visibility": "off"
       }
     ]
   },
   {
-    "featureType": "poi.park",
-    "elementType": "labels.text",
+    "featureType": "transit",
     "stylers": [
       {
         "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.school",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "weight": 8
       }
     ]
   }

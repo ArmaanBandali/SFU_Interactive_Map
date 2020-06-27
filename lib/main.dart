@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:sfuinteractivemap/BuildingCoordinates.dart';
 import 'CustomMenuPopup.dart';
 import 'MenuChoices.dart';
 import 'BuildingPolygons.dart';
@@ -23,11 +22,14 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   GoogleMapController mapController;
   CustomMenuPopup _selectedChoices = MenuChoices().choices[0];
-  MyBuildings sfuBuildings = new MyBuildings();
+  static MyBuildings sfuBuildings = new MyBuildings();
   String _mapStyle;
 
+  //markers
+  List<Marker> buildingMarkers, studyMarkers, foodMarkers;
+
   //custom markers on map
-  BitmapDescriptor pinLocationIcon;
+  static BitmapDescriptor pinLocationIcon, studyLocationIcon;
   Set<Marker> _markers = {};
 
   void initState() {
@@ -44,6 +46,10 @@ class _MapState extends State<Map> {
       ImageConfiguration(devicePixelRatio: 3.2),
       'assets/icons8-marker-100.png',
     );
+    studyLocationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: 3.2),
+      'assets/studyspaces.png',
+    );
   }
 
   final LatLng _center = const LatLng(
@@ -55,7 +61,9 @@ class _MapState extends State<Map> {
 
     setState(
       () {
-        _markers.add(
+        //building markers
+        buildingMarkers = [
+          //WMC
           Marker(
             markerId: MarkerId(sfuBuildings.getBuilding(0).buildingName),
             position: sfuBuildings.getBuilding(0).centre,
@@ -66,11 +74,10 @@ class _MapState extends State<Map> {
                   sfuBuildings.getBuilding(0).abbreviation +
                   ')',
               snippet:
-                  "Contains: Beedie School of Business, Department of Economics, MATHWEST",
+                  "Contains: Beedie School of Business, Department of Economics",
             ),
           ),
-        ); // Add Marker
-        _markers.add(
+          //MBC
           Marker(
             markerId: MarkerId(sfuBuildings.getBuilding(1).buildingName),
             position: sfuBuildings.getBuilding(1).centre,
@@ -84,8 +91,7 @@ class _MapState extends State<Map> {
                   "Contains: Registrar and Information Services, SFU Bookstore and Spirit Shop",
             ),
           ),
-        ); // Add Marker
-        _markers.add(
+          //library
           Marker(
             markerId: MarkerId(sfuBuildings.getBuilding(2).buildingName),
             position: sfuBuildings.getBuilding(2).centre,
@@ -95,8 +101,7 @@ class _MapState extends State<Map> {
               snippet: "You can borrow laptops here!",
             ),
           ),
-        ); // Add Marker
-        _markers.add(
+          //RCB
           Marker(
             markerId: MarkerId(sfuBuildings.getBuilding(3).buildingName),
             position: sfuBuildings.getBuilding(3).centre,
@@ -109,14 +114,85 @@ class _MapState extends State<Map> {
               snippet: "Contains: Images Theatre",
             ),
           ),
-        );
+        ];
+
+        _markers.addAll(buildingMarkers);
       },
     );
   }
 
   void _selectMenuOption(CustomMenuPopup choice) {
+    //study spaces markers
+    studyMarkers = [
+      //in WMC
+      Marker(
+        markerId: MarkerId('wmc1'),
+        position: LatLng(49.279675, -122.922200),
+        icon: studyLocationIcon,
+        infoWindow: InfoWindow(
+          title: "Computer Lab (2F)",
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('wmc2'),
+        position: LatLng(49.279850, -122.922225),
+        icon: studyLocationIcon,
+        infoWindow: InfoWindow(
+          title: "Study Tables with Outlets (1F)",
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('wmc3'),
+        position: LatLng(49.279710, -122.921250),
+        icon: studyLocationIcon,
+        infoWindow: InfoWindow(
+          title: "Study Tables with Outlets (1F)",
+        ),
+      ),
+      //Library
+      Marker(
+        markerId: MarkerId('library'),
+        position: LatLng(49.279600, -122.918675),
+        icon: studyLocationIcon,
+        infoWindow: InfoWindow(
+          title: "Check out the different study areas on different floors!",
+        ),
+      ),
+      //in MBC
+      Marker(
+        markerId: MarkerId('mbc'),
+        position: LatLng(49.278775, -122.919100),
+        icon: studyLocationIcon,
+        infoWindow: InfoWindow(
+          title: "Study Tables with Outlets (1F)",
+        ),
+      ),
+      //in RCB
+      Marker(
+        markerId: MarkerId('rcb'),
+        position: LatLng(49.280100, -122.916700),
+        icon: studyLocationIcon,
+        infoWindow: InfoWindow(
+          title: "Study Tables with Outlets (Below Images Theatre)",
+        ),
+      ),
+    ];
+
+    foodMarkers = [
+
+    ];
+
     setState(() {
       _selectedChoices = choice;
+
+      if(_selectedChoices.title == MenuChoices().choices[0].title) {
+        _markers.removeAll(buildingMarkers);
+        _markers.addAll(foodMarkers);
+      }
+      else if(_selectedChoices.title == MenuChoices().choices[2].title) {
+        _markers.removeAll(buildingMarkers);
+        _markers.addAll(studyMarkers);
+      }
     });
   }
 
