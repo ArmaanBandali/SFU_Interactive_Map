@@ -26,10 +26,10 @@ class _MapState extends State<Map> {
   String _mapStyle;
 
   //markers
-  List<Marker> buildingMarkers, studyMarkers, foodMarkers;
+  List<Marker> buildingMarkers, studyMarkers, foodMarkers, washroomMarkers;
 
   //custom markers on map
-  BitmapDescriptor pinLocationIcon, studyLocationIcon, foodLocationIcon;
+  BitmapDescriptor pinLocationIcon, studyLocationIcon, foodLocationIcon, washroomLocationIcon;
   Set<Marker> _markers = {};
 
   void initState() {
@@ -185,6 +185,60 @@ class _MapState extends State<Map> {
               title: "Tim Hortons (2F)",
             ),
           ),
+          Marker(
+            markerId: MarkerId('starbucks1'),
+            position: LatLng(49.279550, -122.920800),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Starbucks (3F)",
+            ),
+          ),
+          //in MBC
+          Marker(
+            markerId: MarkerId('mbc foodcourt'),
+            position: LatLng(49.278515, -122.918750),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "MBC Food Court (2F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('the study'),
+            position: LatLng(49.278575, -122.918750),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "The Study (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('renaissance coffee1'),
+            position: LatLng(49.278800, -122.918715),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Renaissance Coffee (3F)",
+            ),
+          ),
+          //in RCB
+          Marker(
+            markerId: MarkerId('junction'),
+            position: LatLng(49.279425, -122.917350),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Junction (1F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('qoola'),
+            position: LatLng(49.279100, -122.917450),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Qoola (1F)",
+            ),
+          ),
+        ];
+        //washroom markers
+        washroomMarkers = [
+
         ];
 
         _markers.addAll(buildingMarkers);
@@ -199,16 +253,25 @@ class _MapState extends State<Map> {
       if(_selectedChoices.title == MenuChoices().choices[0].title) {
         _markers.removeAll(foodMarkers);
         _markers.removeAll(studyMarkers);
+        _markers.removeAll(washroomMarkers);
         _markers.addAll(buildingMarkers);
+      }
+      else if(_selectedChoices.title == MenuChoices().choices[2].title) {
+        _markers.removeAll(foodMarkers);
+        _markers.removeAll(studyMarkers);
+        _markers.removeAll(buildingMarkers);
+        _markers.addAll(washroomMarkers);
       }
       else if(_selectedChoices.title == MenuChoices().choices[1].title) {
         _markers.removeAll(buildingMarkers);
         _markers.removeAll(studyMarkers);
+        _markers.removeAll(washroomMarkers);
         _markers.addAll(foodMarkers);
       }
       else if(_selectedChoices.title == MenuChoices().choices[3].title) {
         _markers.removeAll(buildingMarkers);
         _markers.removeAll(foodMarkers);
+        _markers.removeAll(washroomMarkers);
         _markers.addAll(studyMarkers);
       }
     });

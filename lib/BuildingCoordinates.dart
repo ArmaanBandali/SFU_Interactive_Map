@@ -33,7 +33,7 @@ class AllBuildings {
     ); //add
     allBuildings.add(
       Buildings.withAbbreviation(
-        'Maggie Benson Centre',
+        'Maggie Benston Centre',
         'MBC',
         <LatLng>[
           LatLng(49.279180, -122.919500),
