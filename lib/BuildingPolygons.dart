@@ -29,4 +29,8 @@ class MyBuildings{
   Buildings getBuilding(index) {
     return _allBuildings[index];
   }
+
+  int numberOfBuildings() {
+    return _allBuildings.length;
+  }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'CustomMenuPopup.dart';
 import 'MenuChoices.dart';
 import 'BuildingPolygons.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 void main() => runApp(
       MaterialApp(
@@ -25,11 +25,46 @@ class _MapState extends State<Map> {
   MyBuildings sfuBuildings = new MyBuildings();
   String _mapStyle;
 
+  //map -- camera position
+  static LatLng cameraLatLng = _center;
+  String _searchedItem;
+  void _selectSearchItem(String item) {
+    setState(() {
+      _searchedItem = item;
+
+      if (_getSearchableNames().length == null) {
+        return;
+      }
+
+      for (int i = 0; i < _getSearchableNames().length - 1; i++) {
+        if (_searchedItem == _getSearchableNames().elementAt(i)) {
+          for (int j = 0; j < sfuBuildings.numberOfBuildings() - 1; j++) {
+            if (_getSearchableNames().elementAt(i).contains(sfuBuildings.getBuilding(j).buildingName)) {
+              cameraLatLng = sfuBuildings.getBuilding(j).centre;
+              break;
+            }
+          }
+        }
+      }
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: cameraLatLng,
+            zoom: 19.0,
+          ),
+        ),
+      );
+    });
+  }
+
   //markers
   List<Marker> buildingMarkers, studyMarkers, foodMarkers, washroomMarkers;
 
   //custom markers on map
-  BitmapDescriptor pinLocationIcon, studyLocationIcon, foodLocationIcon, washroomLocationIcon;
+  BitmapDescriptor pinLocationIcon,
+      studyLocationIcon,
+      foodLocationIcon,
+      washroomLocationIcon;
   Set<Marker> _markers = {};
 
   void initState() {
@@ -60,7 +95,7 @@ class _MapState extends State<Map> {
     );
   }
 
-  final LatLng _center = const LatLng(
+  static final LatLng _center = const LatLng(
       49.279075, -122.919000); //centers around convocation mall approx.
 
   void _onMapCreated(GoogleMapController controller) {
@@ -203,8 +238,8 @@ class _MapState extends State<Map> {
             position: LatLng(49.278515, -122.918750),
             icon: foodLocationIcon,
             infoWindow: InfoWindow(
-              title: "MBC Food Court (2F)",
-            ),
+                title: "MBC Food Court (2F)",
+                snippet: "Gawon Korean Food, Guadalupe, Curry"),
           ),
           Marker(
             markerId: MarkerId('the study'),
@@ -228,8 +263,8 @@ class _MapState extends State<Map> {
             position: LatLng(49.279425, -122.917350),
             icon: foodLocationIcon,
             infoWindow: InfoWindow(
-              title: "Junction (1F)",
-            ),
+                title: "Junction (1F)",
+                snippet: "burgers and fries! -special tuesday deals-"),
           ),
           Marker(
             markerId: MarkerId('qoola'),
@@ -336,7 +371,6 @@ class _MapState extends State<Map> {
           ),
         ];
 
-
         _markers.addAll(buildingMarkers);
       },
     );
@@ -346,31 +380,52 @@ class _MapState extends State<Map> {
     setState(() {
       _selectedChoices = choice;
 
-      if(_selectedChoices.title == MenuChoices().choices[0].title) {
+      if (_selectedChoices.title == MenuChoices().choices[0].title) {
         _markers.removeAll(foodMarkers);
         _markers.removeAll(studyMarkers);
         _markers.removeAll(washroomMarkers);
         _markers.addAll(buildingMarkers);
-      }
-      else if(_selectedChoices.title == MenuChoices().choices[1].title) {
+      } else if (_selectedChoices.title == MenuChoices().choices[1].title) {
         _markers.removeAll(buildingMarkers);
         _markers.removeAll(studyMarkers);
         _markers.removeAll(washroomMarkers);
         _markers.addAll(foodMarkers);
-      }
-      else if(_selectedChoices.title == MenuChoices().choices[2].title) {
+      } else if (_selectedChoices.title == MenuChoices().choices[2].title) {
         _markers.removeAll(foodMarkers);
         _markers.removeAll(studyMarkers);
         _markers.removeAll(buildingMarkers);
         _markers.addAll(washroomMarkers);
-      }
-      else if(_selectedChoices.title == MenuChoices().choices[3].title) {
+      } else if (_selectedChoices.title == MenuChoices().choices[3].title) {
         _markers.removeAll(buildingMarkers);
         _markers.removeAll(foodMarkers);
         _markers.removeAll(washroomMarkers);
         _markers.addAll(studyMarkers);
       }
     });
+  }
+
+  List<String> _getSearchableNames() {
+    List<String> buildingNames, foodPlacesNames;
+
+    buildingNames = [
+      "West Mall Centre (WMC)",
+      "Library",
+      "Maggie Benston Centre (MBC)",
+      "Robert C. Brown (RCB)",
+    ];
+    foodPlacesNames = [
+      "Tim Hortons",
+      "Starbucks",
+      "Renaissance Coffee",
+    ];
+
+    if (_selectedChoices.title == MenuChoices().choices[0].title) {
+      return buildingNames;
+    } else if (_selectedChoices.title == MenuChoices().choices[1].title) {
+      return foodPlacesNames;
+    }
+
+    return null;
   }
 
   @override
@@ -385,7 +440,6 @@ class _MapState extends State<Map> {
       body: Stack(
         children: <Widget>[
           GoogleMap(
-            //buildingsEnabled: false,
             compassEnabled: true,
             markers: _markers,
             onMapCreated: _onMapCreated,
@@ -428,16 +482,26 @@ class _MapState extends State<Map> {
                     },
                   ),
                   Expanded(
-                    child: TextField(
-                      cursorColor: Colors.black,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction
-                          .go, //figure out what to do with this...
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                        hintText: "Search...",
-                      ),
+//                    child: TextField(
+//                      cursorColor: Colors.black,
+//                      keyboardType: TextInputType.text,
+//                      textInputAction: TextInputAction
+//                          .go, //figure out what to do with this...
+//                      decoration: InputDecoration(
+//                        border: InputBorder.none,
+//                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+//                        hintText: "Search...",
+//                      ),
+//                    ),
+                    child: DropdownSearch<String>(
+                      mode: Mode.MENU,
+                      showClearButton: true,
+                      showSelectedItem: true,
+                      showSearchBox: true,
+                      items: _getSearchableNames(),
+                      label: "Finder",
+                      hint: "Name of the Place",
+                      onChanged: _selectSearchItem,
                     ),
                   ),
                 ],
