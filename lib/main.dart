@@ -36,9 +36,9 @@ class _MapState extends State<Map> {
         return;
       }
 
-      for (int i = 0; i < _getSearchableNames().length - 1; i++) {
+      for (int i = 0; i < _getSearchableNames().length; i++) {
         if (_searchedItem == _getSearchableNames().elementAt(i)) {
-          for (int j = 0; j < sfuBuildings.numberOfBuildings() - 1; j++) {
+          for (int j = 0; j < sfuBuildings.numberOfBuildings(); j++) {
             if (_getSearchableNames().elementAt(i).contains(sfuBuildings.getBuilding(j).buildingName)) {
               cameraLatLng = sfuBuildings.getBuilding(j).centre;
               break;
