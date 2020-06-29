@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Buildings {
@@ -83,6 +84,25 @@ class AllBuildings {
           LatLng(49.280615, -122.916835),
         ],
         LatLng(49.280100, -122.916825),
+      ),
+    ); //add
+    allBuildings.add(
+      Buildings.withAbbreviation(
+        "Academic Quadrangle",
+        "AQ",
+        <LatLng>[
+          LatLng(49.279375, -122.915425),
+          LatLng(49.279660, -122.917220),
+          LatLng(49.278465, -122.917695),
+          LatLng(49.278175, -122.915875),
+          LatLng(49.279225, -122.915480),
+          LatLng(49.279261, -122.915708),
+          LatLng(49.278350, -122.916070),
+          LatLng(49.278560, -122.917400),
+          LatLng(49.279475, -122.917045),
+          LatLng(49.279225, -122.915480),
+        ],
+        LatLng(49.278350, -122.916700),
       ),
     ); //add
   } //addBuilding

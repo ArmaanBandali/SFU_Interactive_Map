@@ -131,7 +131,7 @@ class _MapState extends State<Map> {
                   sfuBuildings.getBuilding(1).abbreviation +
                   ")",
               snippet:
-                  "Contains: Registrar and Information Services, SFU Bookstore and Spirit Shop",
+                  "Contains: Registrar, SFU Bookstore and Spirit Shop",
             ),
           ),
           //library
@@ -155,6 +155,16 @@ class _MapState extends State<Map> {
                   sfuBuildings.getBuilding(3).abbreviation +
                   ")",
               snippet: "Contains: Images Theatre",
+            ),
+          ),
+          //AQ
+          Marker(
+            markerId: MarkerId(sfuBuildings.getBuilding(4).buildingName),
+            position: sfuBuildings.getBuilding(4).centre,
+            icon: pinLocationIcon,
+            infoWindow: InfoWindow(
+              title: sfuBuildings.getBuilding(4).buildingName + " (" + sfuBuildings.getBuilding(4).abbreviation + ")",
+              snippet: "Contains: SFU Art Gallery"
             ),
           ),
         ];
@@ -274,6 +284,31 @@ class _MapState extends State<Map> {
               title: "Qoola (1F)",
             ),
           ),
+          Marker(
+            markerId: MarkerId('jugo juice'),
+            position: LatLng(49.279425, -122.916000),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Jugo Juice (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('renaissance coffee2'),
+            position: LatLng(49.279400, -122.915800),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Renaissance Coffee (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('mackenzie cafe'),
+            position: LatLng(49.278675, -122.915700),
+            icon: foodLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Mackenzie Cafe (3F)",
+              snippet: "Subway, Pizza, Sushi, Coffee, Baked goods, Other drinks"
+            ),
+          ),
         ];
         //washroom markers
         washroomMarkers = [
@@ -352,9 +387,25 @@ class _MapState extends State<Map> {
               title: "Women's Washroom (Most Floors)",
             ),
           ),
-          //in RCB
           Marker(
             markerId: MarkerId('washroom10'),
+            position: LatLng(49.279610, -122.919200),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Men's Washroom (Most Floors)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('washroom11'),
+            position: LatLng(49.279700, -122.919180),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Women's Washroom (Most Floors)",
+            ),
+          ),
+          //in RCB
+          Marker(
+            markerId: MarkerId('washroom12'),
             position: LatLng(49.279725, -122.916825),
             icon: washroomLocationIcon,
             infoWindow: InfoWindow(
@@ -362,11 +413,52 @@ class _MapState extends State<Map> {
             ),
           ),
           Marker(
-            markerId: MarkerId('washroom11'),
+            markerId: MarkerId('washroom13'),
             position: LatLng(49.279750, -122.917000),
             icon: washroomLocationIcon,
             infoWindow: InfoWindow(
               title: "Men's Washroom (1F)",
+            ),
+          ),
+          //in AQ
+          Marker(
+            markerId: MarkerId('washroom14'),
+            position: LatLng(49.279325, -122.916100),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Washrooms (M/F) (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('washroom15'),
+            position: LatLng(49.278350, -122.916500),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Women's Washroom (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('washroom16'),
+            position: LatLng(49.278340, -122.916425),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Men's Washroom (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('washroom17'),
+            position: LatLng(49.278475, -122.917350),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Women's Washroom (3F)",
+            ),
+          ),
+          Marker(
+            markerId: MarkerId('washroom18'),
+            position: LatLng(49.278465, -122.917300),
+            icon: washroomLocationIcon,
+            infoWindow: InfoWindow(
+              title: "Men's Washroom (3F)",
             ),
           ),
         ];
@@ -482,17 +574,6 @@ class _MapState extends State<Map> {
                     },
                   ),
                   Expanded(
-//                    child: TextField(
-//                      cursorColor: Colors.black,
-//                      keyboardType: TextInputType.text,
-//                      textInputAction: TextInputAction
-//                          .go, //figure out what to do with this...
-//                      decoration: InputDecoration(
-//                        border: InputBorder.none,
-//                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
-//                        hintText: "Search...",
-//                      ),
-//                    ),
                     child: DropdownSearch<String>(
                       mode: Mode.MENU,
                       showClearButton: true,
